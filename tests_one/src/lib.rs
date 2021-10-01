@@ -58,30 +58,30 @@ mod tests {
         assert_eq!(4, add_two(2));
     }
 
-    #[test]
+    // #[test]
+    // // fn greeting_contains_name() {
+    // //     let result = greeting("Carol");
+    // //     assert!(result.contains("Carol"));
+    // // }
     // fn greeting_contains_name() {
     //     let result = greeting("Carol");
-    //     assert!(result.contains("Carol"));
+    //     assert!(
+    //         result.contains("Carol"),
+    //         "Greeting did not contain name, value was '{}'",
+    //         result
+    //     );
     // }
-    fn greeting_contains_name() {
-        let result = greeting("Carol");
-        assert!(
-            result.contains("Carol"),
-            "Greeting did not contain name, value was '{}'",
-            result
-        );
-    }
 
-    #[test]
+    // #[test]
     // Для примеров 1 и 2
     // #[should_panic]
 
     // Для примера №3
-    #[should_panic(expected="Guess value must be less than or equal to 100")]
-
-    fn greater_than_100() {
-        Guess::new(200);
-    }
+    // #[should_panic(expected="Guess value must be less than or equal to 100")]
+    //
+    // fn greater_than_100() {
+    //     Guess::new(200);
+    // }
 
     #[test]
     fn it_works2() -> Result<(), String> {
@@ -90,6 +90,39 @@ mod tests {
         } else {
             Err(String::from("two plus two does not equal four"))
         }
+    }
+
+    #[test]
+    fn this_test_will_pass() {
+        let value = prunts_and_returns_10(4);
+        assert_eq!(10, value);
+    }
+
+    #[test]
+    fn this_test_will_fail() {
+        let value = prunts_and_returns_10(8);
+        assert_eq!(5, value);
+    }
+
+    #[test]
+    fn add_two_and_two() {
+        assert_eq!(4, add_two(2));
+    }
+
+    #[test]
+    fn add_three_and_two() {
+        assert_eq!(5, add_two(3));
+    }
+
+    #[test]
+    fn one_hundred() {
+        assert_eq!(102, add_two(100));
+    }
+
+    #[test]
+    #[ignore]
+    fn expensive_test(){
+
     }
 
 
@@ -142,5 +175,11 @@ impl Guess {
         }
     }
 }
+
+fn prunts_and_returns_10(a: i32) -> i32 {
+    println!("value {}", a);
+    10
+}
+
 
 
