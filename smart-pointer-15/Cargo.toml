@@ -1,5 +1,5 @@
 [package]
-name = "smart-pointer-15"
+name = "sp15"
 version = "0.1.0"
 edition = "2021"
 
