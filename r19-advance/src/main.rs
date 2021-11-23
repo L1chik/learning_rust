@@ -1,5 +1,7 @@
 use std::slice;
 use std::fmt;
+use std::io::Error;
+use crate::Option::*;
 
 static HELLO_WORLD: &str = "Hello, world!";
 static mut COUNTER: u32 = 0;
@@ -14,12 +16,27 @@ fn main() {
     //
     // trait_advance();
 
-    r19::trait_test2();
-    r19::trait_test3();
+    // r19::trait_test2();
+    // r19::trait_test3();
 
-    let w = Wrapper(vec![String::from("hello"), String::from("world")]);
-    println!("w = {}", w);
+    // let w = Wrapper(vec![String::from("hello"), String::from("world")]);
+    // println!("w = {}", w);
+
+    // trait_advance2();
+    // fn_pointers();
+
+    // let lis_of_statuses: Vec<Satus> = (0u32..20)
+    //     .map(Status::Value)
+    //     .collect();
+
+    closure();
+
 }
+
+enum Status {
+        Value(u32),
+        Stop,
+    }
 
 fn unsafe_test() {
     let mut num = 5;
@@ -114,3 +131,80 @@ impl fmt::Display for Wrapper {
         write!(f, "[{}]", self.0.join(", "))
     }
 }
+
+fn trait_advance2() {
+    type Kilometers = i32;
+
+    let x: i32 = 5;
+    let y: Kilometers = 5;
+
+    println!("x + y = {}", x + y);
+
+    // let f: Box<dyn Fn() + Send + 'static> = Box::new(|| println!("hi"));
+    type Thunk = Box<dyn Fn() + Send + 'static>;
+
+    let f: Thunk = Box::new(|| println!("hi"));
+
+    fn takes_long_type(f: Thunk) { }
+    fn returns_long_type() -> Thunk {
+        Box::new(|| ())
+    }
+}
+
+fn trait_advace3() {
+    pub trait Write {
+        fn write(&mut self, buf: &[u8]) -> Result<usize, Error>;
+        fn flush(&mut self, fmt: fmt::Arguments) -> Result<(), Error>;
+
+        fn write_all(&mut self, buf: &[u8]) -> Result<(), Error>;
+        fn write_fmt(&mut self, fmt: fmt::Arguments) -> Result<(), Error>;
+    }
+}
+
+enum Option<T> {
+    Some(T),
+    None,
+}
+
+impl<T> Option<T> {
+    pub fn unwrap(self) -> T {
+        match self {
+            Some(val) => val,
+            None => panic!("Called `Option::unwrap() 'on a 'None' value"),
+        }
+    }
+}
+
+fn add_one(x: i32) -> i32 {
+    x + 1
+}
+
+fn do_twice(f: fn(i32)->i32, arg: i32) -> i32 {
+    f(arg) + f(arg)
+}
+
+fn fn_pointers() {
+    let answer = do_twice(add_one, 5);
+
+    println!("Answer is {}", answer);
+
+    let list_of_numbers = vec![1, 2, 3];
+
+    // Использование замыкания в map
+    let list_of_strings: Vec<String> = list_of_numbers
+            .iter()
+            .map(|i| i.to_string())
+            .collect();
+
+    // Использование функции ы качестве аргумента в map
+    let list_of_strings: Vec<String> = list_of_numbers
+            .iter()
+            .map(ToString::to_string)
+            .collect();
+
+}
+
+fn closure() -> Box<dyn Fn(i32)->i32>{
+    Box::new(|x| x + 1)
+}
+
